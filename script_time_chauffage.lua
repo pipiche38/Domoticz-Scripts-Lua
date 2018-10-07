@@ -57,14 +57,16 @@ commandArray = {}
 	chambreClimTemp = otherdevices_svalues['Clim Chambre Temperature']
 
 
-	print('Temperatures : ' )
-	print('   Entrée           : ' ..entreeTemp )
-	print('   Salle à Manger 1 : ' ..sm1Temp )
-	print('   Salle à Manger 2 : ' ..sm2Temp )
-	print('   Salon            : ' ..salonTemp )
-	print('   Cuisine          : ' ..cuisineTemp)
-	print('   Chambre Parent   : ' ..chambreTemp)
-	print('   Salle de Bain    : ' ..sldbTemp)
+	if minutes == 0 then
+		print('Temperatures : ' )
+		print('   Entrée           : ' ..entreeTemp )
+		print('   Salle à Manger 1 : ' ..sm1Temp )
+		print('   Salle à Manger 2 : ' ..sm2Temp )
+		print('   Salon            : ' ..salonTemp )
+		print('   Cuisine          : ' ..cuisineTemp)
+		print('   Chambre Parent   : ' ..chambreTemp)
+		print('   Salle de Bain    : ' ..sldbTemp)
+	end
 
 
 	if ( hoursnow == 6 and minutes == 0) then
