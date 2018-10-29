@@ -58,10 +58,10 @@ commandArray = {}
                 end
 	end
 
-	if ( Presence == 0 and otherdevices['Yamaha - Main'] ~= 'Off' ) then
+--	if ( Presence == 0 and otherdevices['Yamaha - Main'] ~= 'Off' ) then
 		-- switch Off Music
-                commandArray['Yamaha - Main']='Off'
-                print('Switch Off Music')
-        end
+--                commandArray['Yamaha - Main']='Off'
+--                print('Switch Off Music')
+--        end
 
 return commandArray
