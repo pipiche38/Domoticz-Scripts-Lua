@@ -1,6 +1,6 @@
 
 -- Variables to customize ------------------------------------------------
-local DEBUG = 0             -- 0 , 1
+local DEBUG = 1             -- 0 , 1
 
 -- Below , edit at your own risk ------------------------------------------
 

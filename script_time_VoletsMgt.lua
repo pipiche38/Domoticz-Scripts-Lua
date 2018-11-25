@@ -1,6 +1,5 @@
 -- Variables to customize ------------------------------------------------
-local DEBUG = 1             -- 0 , 1
-local VACANCES = 0          -- O we are at home everyday, 1 we are out of home
+local DEBUG = 2             -- 0 , 1
 local CHATSMETSALON = 0          -- O Close the Volets, 1 leave it a bit open
 
 -- Below , edit at your own risk ------------------------------------------
@@ -106,6 +105,11 @@ local Presence = 0
 
 commandArray = {}
 
+        if otherdevices['@HOME'] == 'On' then
+                VACANCES = 0
+        else
+                VACANCES = 1
+        end
 
 	if ( VACANCES == 1 ) then
 		OffCmd = 'Off RANDOM 30'
@@ -242,7 +246,7 @@ commandArray = {}
 
 	-- Gestion Volet Chambre Philippe
 	if ( AutoChbrPhilippe == 'On' ) then
-		if (minutesnow == timeofday['SunriseInMinutes']+30) then
+		if ( WhichSeason() == "Ete" and (minutesnow == timeofday['SunriseInMinutes']+30)) then
 			print('Ouverture Volet Chambre Philippe 50%')
 			commandArray[#commandArray +1]={['Volet Chambre Philippe']='Set Level: 50' .. SetLevelCmd}
 		end
@@ -250,7 +254,7 @@ commandArray = {}
 			print('Ouverture Volet Philippe à 100%')
 			commandArray[#commandArray +1]={['Volet Chambre Philippe']=OnCmd}
 		end
-		if ((hoursnow == 9 ) and (minutes == 45)) then
+		if ( WhichSeason() == "Ete" and ((hoursnow == 9 ) and (minutes == 45))) then
 			print('Ouverture Volet Philippe à 25%')
 			commandArray[#commandArray +1]={['Volet Chambre Philippe']='Set Level: 25' .. SetLevelCmd}
 		end
@@ -262,7 +266,7 @@ commandArray = {}
 
 	-- Gestion Volet Chambre Nico
 	if ( AutoChbrNico == 'On' ) then
-		if (minutesnow == timeofday['SunriseInMinutes']+30) then
+		if ( WhichSeason() == "Ete" and (minutesnow == timeofday['SunriseInMinutes']+30)) then
 			print('Ouverture Volet Chambre Nico 50%')
 			commandArray[#commandArray +1]={['Volet Chambre Nico']='Set Level: 50' .. SetLevelCmd}
 		end
@@ -270,7 +274,7 @@ commandArray = {}
 			print('Ouverture Volet Nico à 100%')
 			commandArray[#commandArray +1]={['Volet Chambre Nico']=OnCmd}
 		end
-		if ((hoursnow == 9 ) and (minutes == 45)) then
+		if ( WhichSeason() == "Ete" and ((hoursnow == 9 ) and (minutes == 45))) then
 			print('Ouverture Volet Nico à 25%')
 			commandArray[#commandArray +1]={['Volet Chambre Nico']='Set Level: 25' .. SetLevelCmd}
 		end

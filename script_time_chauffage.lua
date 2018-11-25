@@ -2,6 +2,8 @@
 --
 -- Main Programme
 --
+--
+
 
 function IsWeekend()
      local dayNow = tonumber(os.date("%w"))
@@ -19,7 +21,7 @@ commandArray = {}
 	- 358 - Cuisine
 	- 344 - Entrée
 	- 330 - Bureau
-	- 402 - Salon
+	- 594 - Salon
 	- 387 - Salle à Manger 2 
 	- 372 - Salle à Manger 1
 
@@ -46,6 +48,52 @@ commandArray = {}
         minutes = timenow.min
         hoursnow = timenow.hour
 
+	print( otherdevices['@HOME Chauffage'] )
+	if otherdevices['@HOME Chauffage'] == 'Off' then
+		return
+	end
+	if otherdevices['@HOME Chauffage'] == 'Régulé' then
+		if IsWeekend() then
+			EcoNuit = '19'
+			EcoJour = '21'
+			Confort1 = '21'
+			Confort2 = '22.5'
+			Heat = '24'
+			SuperHeat = '28'
+		else
+			EcoNuit = '19'
+			EcoJour = '19'
+			Confort1 = '21'
+			Confort2 = '22.5'
+			Heat = '24'
+			SuperHeat = '28'
+		end
+	end
+	if otherdevices['@HOME Chauffage'] == 'Confort' then
+		EcoNuit = '21'
+		EcoJour = '22'
+		Confort1 = '23'
+		Confort2 = '24'
+		Heat = '24'
+		SuperHeat = '24'
+	end
+	if otherdevices['@HOME Chauffage'] == 'Forcé' then
+		EcoNuit = '24'
+		EcoJour = '24'
+		Confort1 = '24'
+		Confort2 = '24'
+		Heat = '24'
+		SuperHeat = '24'
+	end
+	if otherdevices['@HOME Chauffage'] == 'Vacances' then
+		EcoNuit = '17'
+		EcoJour = '17'
+		Confort1 = '17'
+		Confort2 = '17'
+		Heat = '17'
+		SuperHeat = '17'
+	end
+
 	outsideTemp = otherdevices_svalues['Outside Temperature']
 	cuisineTemp = otherdevices_svalues['BT Cuisine - Temperature']
 	sm1Temp = otherdevices_svalues['BT SM1 - Temperature']
@@ -61,7 +109,7 @@ commandArray = {}
 
 	print ('Starting script_time_Chauffage.lua ')
 
-	if minutes == 0 then
+	if minutes ~= 0 then
 		print('Temperatures : ' )
 		print('   Entrée           : ' ..entreeTemp )
 		print('   Salle à Manger 1 : ' ..sm1Temp )
@@ -85,52 +133,73 @@ commandArray = {}
 	print('SetPoint Cuisine : ' .. otherdevices_svalues['BT Cuisine - Heat'] )
 	print('SetPoint Salle de Bain : ' .. otherdevices_svalues['BT Salle de bain - Heat'] )
 
-	if IsWeekend() then
-		EcoNuit = '19'
-		EcoJour = '22'
-		Confort1 = '21'
-		Confort2 = '22.5'
-		Heat = '24'
-	else
-		EcoNuit = '19'
-		EcoJour = '19'
-		Confort1 = '21'
-		Confort2 = '22.5'
-		Heat = '24'
-	end
 
-	if ( hoursnow >= 6 and hoursnow < 9 ) then
-		if otherdevices_svalues['BT Bureau - Heat'] ~= Heat then
+	if ( hoursnow == 6 ) then
+		if otherdevices_svalues['BT Bureau - Heat'] ~= Confort2 then
 			-- Bureau
-        		commandArray[#commandArray +1]={['SetSetPoint:330']=Heat}
+        		commandArray[#commandArray +1]={['SetSetPoint:330']=Confort2}
 		end
 		if otherdevices_svalues['BT Salle de bain - Heat'] ~='30' then
 			-- Salle de bain
         		commandArray[#commandArray +1]={['SetSetPoint:78']='30'}
 		end
-		if otherdevices_svalues['BT Cuisine - Heat'] ~= Heat then
+		if otherdevices_svalues['BT Cuisine - Heat'] ~= Confort2 then
 			-- Cuisine
-        		commandArray[#commandArray +1]={['SetSetPoint:358']= Heat}
+        		commandArray[#commandArray +1]={['SetSetPoint:358']= Confort2}
 		end
 		if otherdevices_svalues['BT Chambre Parent - Heat'] ~= EcoNuit then
 			-- Chambre
         		commandArray[#commandArray +1]={['SetSetPoint:160']= EcoNuit}
 		end
-		if otherdevices_svalues['BT Entrée - Heat'] ~= Heat then
+		if otherdevices_svalues['BT Entrée - Heat'] ~= SuperHeat then
 			-- Entrée
-        		commandArray[#commandArray +1]={['SetSetPoint:344']= Heat}
+        		commandArray[#commandArray +1]={['SetSetPoint:344']= SuperHeat}
 		end
-                if otherdevices_svalues['BT Salon - Heat'] ~= Heat then
+                if otherdevices_svalues['BT Salon - Heat'] ~= Confort2 then
                         -- Salon
-                        commandArray[#commandArray +1]={['SetSetPoint:402']= Heat}
+                        commandArray[#commandArray +1]={['SetSetPoint:402']= Confort2}
                 end
-                if otherdevices_svalues['BT SM1 - Heat'] ~='Heat' then
+                if otherdevices_svalues['BT SM1 - Heat'] ~=Confort2 then
                         -- SM1
-                        commandArray[#commandArray +1]={['SetSetPoint:372']='Heat'}
+                        commandArray[#commandArray +1]={['SetSetPoint:372']=Confort2}
                 end
-                if otherdevices_svalues['BT SM2 - Heat'] ~= Heat then
+                if otherdevices_svalues['BT SM2 - Heat'] ~= Confort2 then
                         -- SM2
-                        commandArray[#commandArray +1]={['SetSetPoint:387']= Heat}
+                        commandArray[#commandArray +1]={['SetSetPoint:387']= Confort2}
+                end
+	end
+	if ( hoursnow > 6 and hoursnow < 9 ) then
+		if otherdevices_svalues['BT Bureau - Heat'] ~= Heat then
+			-- Bureau
+        		commandArray[#commandArray +1]={['SetSetPoint:330']=Confort2}
+		end
+		if otherdevices_svalues['BT Salle de bain - Heat'] ~='30' then
+			-- Salle de bain
+        		commandArray[#commandArray +1]={['SetSetPoint:78']='30'}
+		end
+		if otherdevices_svalues['BT Cuisine - Heat'] ~= Confort2 then
+			-- Cuisine
+        		commandArray[#commandArray +1]={['SetSetPoint:358']= Confort2}
+		end
+		if otherdevices_svalues['BT Chambre Parent - Heat'] ~= EcoNuit then
+			-- Chambre
+        		commandArray[#commandArray +1]={['SetSetPoint:160']= EcoNuit}
+		end
+		if otherdevices_svalues['BT Entrée - Heat'] ~= Confort2 then
+			-- Entrée
+        		commandArray[#commandArray +1]={['SetSetPoint:344']= Confort2}
+		end
+                if otherdevices_svalues['BT Salon - Heat'] ~= Confort2 then
+                        -- Salon
+                        commandArray[#commandArray +1]={['SetSetPoint:594']= Confort2}
+                end
+                if otherdevices_svalues['BT SM1 - Heat'] ~=Confort2 then
+                        -- SM1
+                        commandArray[#commandArray +1]={['SetSetPoint:372']=Confort2}
+                end
+                if otherdevices_svalues['BT SM2 - Heat'] ~= Confort2 then
+                        -- SM2
+                        commandArray[#commandArray +1]={['SetSetPoint:387']= Confort2}
                 end
 	end
 	if ( hoursnow >= 9 and hoursnow < 12 ) then
@@ -156,11 +225,11 @@ commandArray = {}
                 end
                 if otherdevices_svalues['BT Salon - Heat'] ~= EcoJour then
                         -- Salon
-                        commandArray[#commandArray +1]={['SetSetPoint:402']= EcoJour}
+                        commandArray[#commandArray +1]={['SetSetPoint:594']= EcoJour}
                 end
-                if otherdevices_svalues['BT SM1 - Heat'] ~= '21' then
+                if otherdevices_svalues['BT SM1 - Heat'] ~= '19' then
                         -- SM1
-                        commandArray[#commandArray +1]={['SetSetPoint:372']= '21'}
+                        commandArray[#commandArray +1]={['SetSetPoint:372']= '19'}
                 end
                 if otherdevices_svalues['BT SM2 - Heat'] ~= EcoJour then
                         -- SM2
@@ -186,11 +255,11 @@ commandArray = {}
                 end
                 if otherdevices_svalues['BT Salon - Heat'] ~= Confort2 then
 			-- Salon
-        		commandArray[#commandArray +1]={['SetSetPoint:402']= Confort2}
+        		commandArray[#commandArray +1]={['SetSetPoint:594']= Confort2}
 		end
-                if otherdevices_svalues['BT SM1 - Heat'] ~='22' then
+                if otherdevices_svalues['BT SM1 - Heat'] ~= Confort1 then
 			-- SM1
-        		commandArray[#commandArray +1]={['SetSetPoint:372']='22'}
+        		commandArray[#commandArray +1]={['SetSetPoint:372']= Confort1}
 		end
                 if otherdevices_svalues['BT SM2 - Heat'] ~= Confort1 then
 			-- SM2
@@ -216,7 +285,7 @@ commandArray = {}
                 end
                 if otherdevices_svalues['BT Salon - Heat'] ~= EcoJour then
                         -- Salon
-                        commandArray[#commandArray +1]={['SetSetPoint:402']= EcoJour}
+                        commandArray[#commandArray +1]={['SetSetPoint:594']= EcoJour}
                 end
                 if otherdevices_svalues['BT SM1 - Heat'] ~= EcoJour then
                         -- SM1
@@ -250,7 +319,7 @@ commandArray = {}
                 end
                 if otherdevices_svalues['BT Salon - Heat'] ~= Confort2 then
                         -- Salon
-                        commandArray[#commandArray +1]={['SetSetPoint:402']= Confort2}
+                        commandArray[#commandArray +1]={['SetSetPoint:594']= Confort2}
                 end
                 if otherdevices_svalues['BT SM1 - Heat'] ~= Confort1 then
                         -- SM1
@@ -263,9 +332,9 @@ commandArray = {}
 	end
 
 	if ( hoursnow >= 20 and hoursnow < 21 ) then
-		if otherdevices_svalues['BT Bureau - Heat'] ~= EcoJour then
+		if otherdevices_svalues['BT Bureau - Heat'] ~= EcoNuit then
 			-- Bureau
-        		commandArray[#commandArray +1]={['SetSetPoint:330']= EcoJour}
+        		commandArray[#commandArray +1]={['SetSetPoint:330']= EcoNuit}
 		end
                 if otherdevices_svalues['BT Salle de bain - Heat'] ~= EcoJour then
                         -- Salle de bain
@@ -285,7 +354,7 @@ commandArray = {}
                 end
                 if otherdevices_svalues['BT Salon - Heat'] ~= Confort2 then
                         -- Salon
-                        commandArray[#commandArray +1]={['SetSetPoint:402']= Confort2}
+                        commandArray[#commandArray +1]={['SetSetPoint:594']= Confort2}
                 end
                 if otherdevices_svalues['BT SM1 - Heat'] ~= Confort1 then
                         -- SM1
@@ -320,7 +389,7 @@ commandArray = {}
                 end
                 if otherdevices_svalues['BT Salon - Heat'] ~= Confort2 then
                         -- Salon
-                        commandArray[#commandArray +1]={['SetSetPoint:402']= Confort2}
+                        commandArray[#commandArray +1]={['SetSetPoint:594']= Confort2}
                 end
                 if otherdevices_svalues['BT SM1 - Heat'] ~= EcoNuit then
                         -- SM1
@@ -355,11 +424,11 @@ commandArray = {}
                 end
                 if otherdevices_svalues['BT Salon - Heat'] ~= Confort2 then
                         -- Salon
-                        commandArray[#commandArray +1]={['SetSetPoint:402']= Confort2}
+                        commandArray[#commandArray +1]={['SetSetPoint:594']= Confort2}
                 end
-                if otherdevices_svalues['BT SM1 - Heat'] ~= EcoNuit then
+                if otherdevices_svalues['BT SM1 - Heat'] ~= Confort1 then
                         -- SM1
-                        commandArray[#commandArray +1]={['SetSetPoint:372']= EcoNuit}
+                        commandArray[#commandArray +1]={['SetSetPoint:372']= Confort1}
                 end
                 if otherdevices_svalues['BT SM2 - Heat'] ~= EcoNuit then
                         -- SM2
@@ -387,9 +456,9 @@ commandArray = {}
                         -- Entrée
                         commandArray[#commandArray +1]={['SetSetPoint:344']='18'}
                 end
-                if otherdevices_svalues['BT Salon - Heat'] ~='18' then
+                if otherdevices_svalues['BT Salon - Heat'] ~= Confort1 then
                         -- Salon
-                        commandArray[#commandArray +1]={['SetSetPoint:402']='18'}
+                        commandArray[#commandArray +1]={['SetSetPoint:594']= Confort1}
                 end
                 if otherdevices_svalues['BT SM1 - Heat'] ~='18' then
                         -- SM1

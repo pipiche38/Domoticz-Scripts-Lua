@@ -1,6 +1,6 @@
 
 -- Variables to customize ------------------------------------------------
-local DEBUG = 2             -- 0 , 1
+local DEBUG = 1             -- 0 , 1
 
 -- Below , edit at your own risk ------------------------------------------
 
@@ -25,10 +25,6 @@ commandArray = {}
 
 	-- Previous presence
 	Presence = uservariables['PresenceAtHome'] 
-
-	PresencePipiche = otherdevices['Pipiche iPhoneX'] 
-	PresencePatrick = otherdevices['Patrick iPhone6'] 
-	PresenceAnnieClaude = otherdevices['Annie-Claude iPhone6']
 
         -- get current time
         timenow = os.date("*t")

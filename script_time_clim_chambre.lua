@@ -1,7 +1,6 @@
 
 -- Variables to customize ------------------------------------------------
 local DEBUG = 0         -- 0 , 1
-local VACANCES = 1  	-- Prendre l'information d'un switch ou d'une Variable
 
 -- Below , edit at your own risk ------------------------------------------
 
@@ -21,11 +20,22 @@ end
 commandArray = {}
 
 	if ( DEBUG == 2 ) then print ('Starting script_time_Clim.lua ') end
+
+        if otherdevices['@HOME'] == 'On' then
+                VACANCES = 0
+        else
+                VACANCES = 1
+        end
+
 	if ( VACANCES == 1 ) then
 		-- do nothing
 		return 
 	end
 
+	if ( 1 == 1 ) then
+		-- do nothing
+		return 
+	end
 	tempChbr = otherdevices_svalues['Temperature Chambre Parents']
         sTempChbr, sHumidityChbr = tempChbr:match("([^;]+);([^;]+)")
         nTempChbr = tonumber(sTempChbr)
