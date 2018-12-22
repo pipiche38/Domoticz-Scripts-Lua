@@ -1,6 +1,6 @@
 
 -- Variables to customize ------------------------------------------------
-local DEBUG = 1             -- 0 , 1
+local DEBUG = 0             -- 0 , 1
 
 -- Below , edit at your own risk ------------------------------------------
 
@@ -11,15 +11,18 @@ local PresenceNicolas = '/'
 local newPresence = 0
 local prevPresence = 0
 
-function timedifference(s)
+function timedifference( s )
+   print('Timedifference: ' ..s )
    year = string.sub(s, 1, 4)
    month = string.sub(s, 6, 7)
    day = string.sub(s, 9, 10)
    hour = string.sub(s, 12, 13)
    minutes = string.sub(s, 15, 16)
    seconds = string.sub(s, 18, 19)
+
    t1 = os.time()
    t2 = os.time{year=year, month=month, day=day, hour=hour, min=minutes, sec=seconds}
+
    difference = os.difftime (t1, t2)
    return difference  --le résultat retourné est en secondes
 end
@@ -35,28 +38,29 @@ commandArray = {}
 
 	if ( DEBUG == 1 ) then print ('Starting script_time_Presence.lua ') end
 	if (uservariables['PresenceAtHome'] == nil) then print("Error : Did you create the Uservariable PresenceAtHome ?") end
-
+	--
+	--
 	-- Previous presence
 	prevPresence = uservariables['PresenceAtHome'] 
 	if ( DEBUG == 1 ) then print('Past presence was      - ' .. prevPresence ) end
 
-	if timedifference(otherdevices_lastupdate['Pipiche iPhoneX']) > 300  then
-		if ( DEBUG == 1 ) then print('Last status for Pipiche iPhoneX is > 300; Presence is valid' ) end
-		PresencePipiche = otherdevices['Pipiche iPhoneX'] 
+	if otherdevices_lastupdate['Pipiche iPhoneX'] ~= nil then
+		if timedifference(otherdevices_lastupdate['Pipiche iPhoneX']) > 300  then
+			if ( DEBUG == 1 ) then print('Last status for Pipiche iPhoneX is > 300; Presence is valid' ) end
+			PresencePipiche = otherdevices['Pipiche iPhoneX'] 
+		end
 	end
-	if timedifference(otherdevices_lastupdate['Patrick iPhone6']) > 300  then
-		if ( DEBUG == 1 ) then print('Last status for Patrick iPhone6 is > 300; Presence is valid' ) end
-		PresencePatrick = otherdevices['Patrick iPhone6'] 
+	if otherdevices_lastupdate['Annie-Claude iPhone6'] ~= nil then
+		if timedifference(otherdevices_lastupdate['Annie-Claude iPhone6']) > 300  then
+			if ( DEBUG == 1 ) then print('Last status for Annie-Claude iPhone6 is > 300; Presence is valid' ) end
+			PresenceAnnieClaude = otherdevices['Annie-Claude iPhone6']
+		end
 	end
-
-	if timedifference(otherdevices_lastupdate['Annie-Claude iPhone6']) > 300  then
-		if ( DEBUG == 1 ) then print('Last status for Annie-Claude iPhone6 is > 300; Presence is valid' ) end
-		PresenceAnnieClaude = otherdevices['Annie-Claude iPhone6']
-	end
-
-	if timedifference(otherdevices_lastupdate['Nicolas iPhone6S']) > 300  then
-		if ( DEBUG == 1 ) then print('Last status for Nicolas iPhone6S is > 300; Presence is valid' ) end
-		PresenceNicolas = otherdevices['Nicolas iPhone6S']
+	if otherdevices_lastupdate['Nicolas iPhone6S'] ~= nil then
+		if timedifference(otherdevices_lastupdate['Nicolas iPhone6S']) > 300  then
+			if ( DEBUG == 1 ) then print('Last status for Nicolas iPhone6S is > 300; Presence is valid' ) end
+			PresenceNicolas = otherdevices['Nicolas iPhone6S']
+		end
 	end
 
 	-- Updating Presence

@@ -1,4 +1,3 @@
-
 -- Variables to customize ------------------------------------------------
 local DEBUG = 0         -- 0 , 1
 local VACANCES = 0      -- Prendre l'information d'un switch ou d'une Variable
@@ -63,8 +62,3 @@ commandArray = {}
         if ( DEBUG == 1 ) then print ('Detection ouverture de portes fenetres completed') end
 
 return commandArray
-
-
-
-
-

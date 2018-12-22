@@ -1,5 +1,5 @@
 -- Variables to customize ------------------------------------------------
-local DEBUG = 2             -- 0 , 1
+local DEBUG = 0             -- 0 , 1
 local CHATSMETSALON = 0          -- O Close the Volets, 1 leave it a bit open
 
 -- Below , edit at your own risk ------------------------------------------
@@ -128,8 +128,6 @@ commandArray = {}
 		hourCloseEveningChbrs = 22
  		minutesCloseEveningChbrs = 0
 	end
-
-	print(' Saison = ' .. WhichSeason() )
 
         if (uservariables['PresenceAtHome'] == nil) then print("Error : Did you create the Uservariable PresenceAtHome ?") end
         Presence = uservariables['PresenceAtHome']
