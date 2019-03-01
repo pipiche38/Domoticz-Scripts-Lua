@@ -52,12 +52,13 @@ commandArray = {}
 
 	-- Updating Presence
 
+	newPresence = 0
 	if ( PresencePatrick == 'On' ) then newPresence = newPresence + 1 end
 	if ( PresenceAnnieClaude == 'On' ) then newPresence = newPresence + 1 end
 	if ( PresenceNicolas == 'On' ) then newPresence = newPresence + 1 end
 	if ( PresencePipiche == 'On' ) then newPresence = newPresence + 1 end
 
-	if ( PresencePatrick == 'Off' and PresenceAnnieClaude == 'Off' and PresenceNicolas == 'Off') then newPresence = 0 end
+	if ( PresencePipiche == 'Off' and PresencePatrick == 'Off' and PresenceAnnieClaude == 'Off' and PresenceNicolas == 'Off') then newPresence = 0 end
 
 	if ( DEBUG == 1 ) then
                 print('Status Patrick iPhone6      - ' .. PresencePatrick )

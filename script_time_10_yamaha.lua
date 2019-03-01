@@ -19,7 +19,6 @@ end
 
 commandArray = {}
 
-
 	if ( DEBUG == 2 ) then print ('Starting script_time_Yamaha.lua ') end
 	if (uservariables['PresenceAtHome'] == nil) then print("Error : Did you create the Uservariable PresenceAtHome ?") end
 
@@ -56,7 +55,7 @@ commandArray = {}
 
 	if ( Presence == 0 and otherdevices['Yamaha - Main'] ~= 'Off' ) then
 		-- switch Off Music
-                commandArray['Yamaha - Main']='Off'
+		-- commandArray['Yamaha - Main']='Off'
                 print('Switch Off Music')
         end
 

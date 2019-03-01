@@ -228,10 +228,6 @@ commandArray = {}
 
 	-- Gestion Volet Bureau
 	if ( AutoBureau == 'On' ) then
-		if (minutesnow == timeofday['SunriseInMinutes']+30) then
-			print('Ouverture Volet Bureau')
-			commandArray[#commandArray +1]={['Volet Bureau']='Set Level: 50' .. SetLevelCmd}
-		end
 		if ((hoursnow == hourOpeningMorningChbrs ) and (minutes == minutesOpeningMorningChbrs)) then
 			print('Ouverture Volet Bureau à 100%')
 			commandArray[#commandArray +1]={['Volet Bureau']=OnCmd}

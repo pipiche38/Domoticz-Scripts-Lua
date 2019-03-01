@@ -13,7 +13,6 @@ function IsWeekend()
      return weekend
 end
 
-commandArray = {}
 	--[[
 	- 78  - Salle de Bain
 	- 160 - Chambre Parent
@@ -41,6 +40,7 @@ commandArray = {}
 
 	]]--
 	print ('Starting script_time_Chauffage.lua ')
+	commandArray = {}
 
         -- get current time
         timenow = os.date("*t")
@@ -55,22 +55,28 @@ commandArray = {}
 
 	if otherdevices['@HOME Chauffage'] == 'Régulé' then
 		if IsWeekend() then
+			sdbChaud = '26'
+			sdbEco = '18'
 			EcoNuit = '18'
 			EcoJour = '21'
 			Confort1 = '22'
 			Confort2 = '23'
 			Heat = '24'
-			SuperHeat = '26'
+			SuperHeat = '25'
 		else
+			sdbChaud = '26'
+			sdbEco = '18'
 			EcoNuit = '18'
-			EcoJour = '19'
+			EcoJour = '18'
 			Confort1 = '21'
-			Confort2 = '22.5'
+			Confort2 = '23'
 			Heat = '24'
 			SuperHeat = '26'
 		end
 	end
 	if otherdevices['@HOME Chauffage'] == 'Confort' then
+		sdbChaud = '24'
+		sdbEco = '18'
 		EcoNuit = '21'
 		EcoJour = '22'
 		Confort1 = '23'
@@ -79,6 +85,8 @@ commandArray = {}
 		SuperHeat = '24'
 	end
 	if otherdevices['@HOME Chauffage'] == 'Forcé' then
+		sdbChaud = '24'
+		sdbEco = '24'
 		EcoNuit = '24'
 		EcoJour = '24'
 		Confort1 = '24'
@@ -87,34 +95,36 @@ commandArray = {}
 		SuperHeat = '24'
 	end
 	if otherdevices['@HOME Chauffage'] == 'Vacances' then
-		EcoNuit = '17'
-		EcoJour = '17'
-		Confort1 = '17'
-		Confort2 = '17'
-		Heat = '17'
-		SuperHeat = '17'
+		sdbChaud = '18'
+		sdbEco = '18'
+		EcoNuit = '18'
+		EcoJour = '18'
+		Confort1 = '18'
+		Confort2 = '18'
+		Heat = '18'
+		SuperHeat = '18'
 	end
 	if ( hoursnow == 6 ) then
 		bureau = EcoJour
-		sdb = Confort2
+		sdb = sdbEco
 		cuisine = Confort2
-		chbparent = EcoNuit
+		chbparent = '19'
 		entree = Confort1
 		salon = Confort1
 		sm = Confort1
 	end
 	if ( hoursnow > 6 and hoursnow < 9 ) then
 		bureau = Confort2
-		sdb = Confort2
+		sdb = sdbChaud
 		cuisine = Confort2
-		chbparent = EcoNuit
+		chbparent = '19'
 		entree = Confort2
 		salon = EcoJour
 		sm = EcoJour
 	end
 	if ( hoursnow >= 9 and hoursnow < 12 ) then
 		bureau =  EcoJour
-		sdb = EcoJour
+		sdb = sdbChaud
 		cuisine = EcoJour
 		chbparent = EcoNuit
 		entree = Confort1
@@ -123,7 +133,7 @@ commandArray = {}
 	end
 	if ( hoursnow >= 12 and hoursnow < 14 ) then
 		bureau =  Confort1
-		sdb = EcoJour
+		sdb = sdbEco
 		cuisine = Confort1
 		chbparent = EcoNuit
 		entree = Confort1
@@ -152,7 +162,7 @@ commandArray = {}
 		bureau = Confort1
 		sdb = Confort1
 		cuisine = Confort1
-		chbparent = EcoNuit
+		chbparent = '19'
 		entree = Confort2
 		salon = Confort2
 		sm = Confort1
@@ -161,7 +171,7 @@ commandArray = {}
 		bureau = EcoNuit
 		sdb = EcoNuit
 		cuisine = EcoNuit
-		chbparent = EcoNuit
+		chbparent = '19'
 		entree = EcoNuit
 		salon = Confort2
 		sm = Confort2
@@ -176,14 +186,16 @@ commandArray = {}
 		sm = Confort1
 	end
 	if ( hoursnow == 23 ) then
-		bureau = '17'
-		sdb = '17'
-		cuisine = '17'
-		chbparent = '17'
+		bureau = '18'
+		sdb = '18'
+		cuisine = '18'
+		chbparent = '18'
 		entree = '17'
 		salon = '17'
 		sm = '17'
-                commandArray[#commandArray +1]={['@HOME Chauffage']='Set Level: 20'}
+		if otherdevices['@HOME Chauffage'] == 'Manuel' then
+                	commandArray[#commandArray +1]={['@HOME Chauffage']='Set Level: 20'}
+		end
 	end
 	if otherdevices['@HOME Chauffage'] == 'Manuel' then
 		bureau = otherdevices_svalues['Consigne Bureau']
@@ -251,5 +263,17 @@ commandArray = {}
 	--print('SetPoint Cuisine : ' .. otherdevices_svalues['BT Cuisine - Heat'] )
 	--print('Consigne Salle de Bain : ' .. otherdevices_svalues['Consigne Salle de Bains'] )
 	--print('SetPoint Salle de Bain : ' .. otherdevices_svalues['BT Salle de bain - Heat'] )
+	--
+
+--	print('### ++++++> Device Changes in commandArray: ' ..#commandArray )
+--	for i, v in pairs(commandArray) do
+--		if type(v) == "table" then
+--			for namedevice, t in pairs(v) do
+--		  		print('### '..i.."="..namedevice.."->".. v[namedevice])
+--	   		end
+--		else
+--			print('### '..i.."->".. v)
+--		end
+--	end
 
 return commandArray
