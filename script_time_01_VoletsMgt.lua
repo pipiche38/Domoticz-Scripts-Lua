@@ -281,7 +281,7 @@ commandArray = {}
 
 
 	-- Gestion du Soleil
-	tempExt = otherdevices_svalues['Exterieur']
+	tempExt = otherdevices_svalues['TempHumi Exterieur']
 	lumino = otherdevices_svalues['Lux']
 	nLumino = tonumber(lumino)
         sTempExt, sHumidityExt = tempExt:match("([^;]+);([^;]+)")
@@ -313,17 +313,17 @@ commandArray = {}
 				if ( AutoChbrParent == 'On' ) then
 					commandArray[#commandArray +1]={['Volet Chambre Parents']='Set Level: ' .. setLevelVolet .. SetLevelCmd}
 				end
-				if ( AutoBureau == 'On'  and otherdevices['Patrick iPhone6'] == 'Off' ) then
-					commandArray[#commandArray +1]={['Volet Bureau']='Set Level: ' .. setLevelVolet .. SetLevelCmd}
-				end
+				--if ( AutoBureau == 'On'  and otherdevices['Patrick iPhone6'] == 'Off' ) then
+				--	commandArray[#commandArray +1]={['Volet Bureau']='Set Level: ' .. setLevelVolet .. SetLevelCmd}
+				--end
 				if (( IsWeekend() == "False" and IsAdelia() == "False") or ( VACANCES == 1 )) then
 					if ( AutoSalon == 'On' ) then
 						commandArray[#commandArray +1]={['Volet Salon']='Set Level: '.. setLevelVolet  .. SetLevelCmd}
 					end
-					if ( AutoSM == 'On' ) then
-						commandArray[#commandArray +1]={['Volet Salle a Manger']='Set Level: ' .. setLevelVolet .. SetLevelCmd}
+					--if ( AutoSM == 'On' ) then
+					--	commandArray[#commandArray +1]={['Volet Salle a Manger']='Set Level: ' .. setLevelVolet .. SetLevelCmd}
 					end
-				end -- IsWeekend
+				--end -- IsWeekend
 			end -- > 25° or Lux > 35K
 		end -- Presence == 1 or Presence == 0 ) and ( hoursnow > 14 and hoursnow < 19 and minutes == 0
 	end -- WhichSeason

@@ -1,6 +1,6 @@
 
 -- Variables to customize ------------------------------------------------
-local DEBUG = 1             -- 0 , 1
+local DEBUG = 2             -- 0 , 1
 
 -- Below , edit at your own risk ------------------------------------------
 
@@ -33,24 +33,35 @@ commandArray = {}
 
 
 	if ( IsWeekend() == "True" and hoursnow == 9 and minutes == 0 and Presence > 0 ) then
-		-- switch on Music
-		commandArray['Yamaha - Main']='On'
-		commandArray['Yamaha - Volume Main']='Set Level 30'
-		print('Switch On Music')
-	end
-	if ( IsWeekend() == "False" ) then
-		if ( hoursnow == 8 and minutes == 0 and Presence > 0 ) then
+		if otherdevices['Anyone@Home'] == 'On' then
 			-- switch on Music
 			commandArray['Yamaha - Main']='On'
 			commandArray['Yamaha - Volume Main']='Set Level 30'
 			print('Switch On Music')
 		end
+	end
+	if ( IsWeekend() == "False" ) then
+		if ( hoursnow == 8 and minutes == 0 and Presence > 0 ) then
+			if otherdevices['Anyone@Home'] == 'On' then
+				-- switch on Music
+				commandArray['Yamaha - Main']='On'
+				commandArray['Yamaha - Volume Main']='Set Level 30'
+				print('Switch On Music')
+			end
+		end
 		if ( hoursnow == 18 and minutes == 0 ) then
+			if otherdevices['Anyone@Home'] == 'On' then
                         -- switch on Music
                         commandArray['Yamaha - Main']='On'
 			commandArray['Yamaha - Volume Main']='Set Level 30'
                         print('Switch On Music')
+			end
                 end
+	end
+
+	if otherdevices['Anyone@Home'] == 'Off' then
+		commandArray['Yamaha - Main']='Off'
+                print('Switch Off Music')
 	end
 
 	if ( Presence == 0 and otherdevices['Yamaha - Main'] ~= 'Off' ) then

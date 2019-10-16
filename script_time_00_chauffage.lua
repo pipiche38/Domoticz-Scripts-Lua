@@ -39,7 +39,7 @@ end
         commandArray[#commandArray +1]={['SetSetPoint:428']='18'}
 
 	]]--
-	print ('Starting script_time_Chauffage.lua ')
+	print ('Starting script_time_00_Chauffage.lua ')
 	commandArray = {}
 
         -- get current time
@@ -48,7 +48,7 @@ end
         minutes = timenow.min
         hoursnow = timenow.hour
 
-	--print( otherdevices['@HOME Chauffage'] )
+	print( otherdevices['@HOME Chauffage'] )
 	if otherdevices['@HOME Chauffage'] == 'Off' then
 		return
 	end
@@ -85,14 +85,14 @@ end
 		SuperHeat = '24'
 	end
 	if otherdevices['@HOME Chauffage'] == 'Forcé' then
-		sdbChaud = '24'
-		sdbEco = '24'
-		EcoNuit = '24'
-		EcoJour = '24'
-		Confort1 = '24'
-		Confort2 = '24'
-		Heat = '24'
-		SuperHeat = '24'
+		sdbChaud = '26'
+		sdbEco = '26'
+		EcoNuit = '26'
+		EcoJour = '26'
+		Confort1 = '26'
+		Confort2 = '26'
+		Heat = '26'
+		SuperHeat = '26'
 	end
 	if otherdevices['@HOME Chauffage'] == 'Vacances' then
 		sdbChaud = '18'
@@ -109,6 +109,7 @@ end
 		sdb = sdbEco
 		cuisine = Confort2
 		chbparent = '19'
+		chbnicolas = '19'
 		entree = Confort1
 		salon = Confort1
 		sm = Confort1
@@ -118,15 +119,17 @@ end
 		sdb = sdbChaud
 		cuisine = Confort2
 		chbparent = '19'
+		chbnicolas = '19'
 		entree = Confort2
 		salon = EcoJour
 		sm = EcoJour
 	end
 	if ( hoursnow >= 9 and hoursnow < 12 ) then
 		bureau =  EcoJour
-		sdb = sdbChaud
+		sdb = sdbEco
 		cuisine = EcoJour
 		chbparent = EcoNuit
+		chbnicolas = EcoNuit
 		entree = Confort1
 		salon = EcoJour
 		sm = EcoJour
@@ -136,33 +139,37 @@ end
 		sdb = sdbEco
 		cuisine = Confort1
 		chbparent = EcoNuit
+		chbnicolas = EcoNuit
 		entree = Confort1
 		salon = Confort1
 		sm = Confort1
 	end
 	if ( hoursnow >= 14 and hoursnow < 18) then
 		bureau = EcoJour
-		sdb = EcoJour
+		sdb = sdbEco
 		cuisine = EcoJour
 		chbparent = EcoNuit
+		chbnicolas = EcoNuit
 		entree = EcoJour
 		salon = EcoJour
 		sm = EcoJour
 	end
 	if ( hoursnow >= 18 and hoursnow < 20 ) then
 		bureau = Confort1
-		sdb = Confort1
+		sdb = sdbEco
 		cuisine =Confort1
 		chbparent = EcoNuit
+		chbnicolas = EcoNuit
 		entree = Confort1
 		salon = Confort1
 		sm = Confort1
 	end
 	if ( hoursnow >= 20 and hoursnow < 21 ) then
 		bureau = Confort1
-		sdb = Confort1
+		sdb = sdbEco
 		cuisine = Confort1
 		chbparent = '19'
+		chbnicolas = '19'
 		entree = Confort2
 		salon = Confort2
 		sm = Confort1
@@ -172,6 +179,7 @@ end
 		sdb = EcoNuit
 		cuisine = EcoNuit
 		chbparent = '19'
+		chbnicolas = '19'
 		entree = EcoNuit
 		salon = Confort2
 		sm = Confort2
@@ -181,6 +189,7 @@ end
 		sdb = EcoNuit
 		cuisine = EcoNuit
 		chbparent = EcoNuit
+		chbnicolas = EcoNuit
 		entree = EcoNuit
 		salon = Confort2
 		sm = Confort1
@@ -190,6 +199,7 @@ end
 		sdb = '18'
 		cuisine = '18'
 		chbparent = '18'
+		chbnicolas = '18'
 		entree = '17'
 		salon = '17'
 		sm = '17'
@@ -202,6 +212,7 @@ end
 		sdb = otherdevices_svalues['Consigne Salle de Bains']
 		cuisine = otherdevices_svalues['Consigne Cusine']
 		chbparent = otherdevices_svalues['Consigne Chambre Parents']
+		chbincolas = otherdevices_svalues['Consigne Chambre Nicolas']
 		entree = otherdevices_svalues['Consigne Entrée']
 		salon = otherdevices_svalues['Consigne Salon']
 		sm = otherdevices_svalues['Consigne Salle à Manger']
@@ -231,6 +242,10 @@ end
 		-- Cuisine
 		commandArray[#commandArray +1]={['SetSetPoint:753'] = cuisine }
 	end
+	if otherdevices_svalues['Consigne Chambre Nicolas'] ~= chbnicolas then
+		-- Chambre
+		commandArray[#commandArray +1]={['SetSetPoint:934'] = chbnicolas }
+	end
 	if otherdevices_svalues['Consigne Chambre Parents'] ~= chbparent then
 		-- Chambre
 		commandArray[#commandArray +1]={['SetSetPoint:756'] = chbparent }
@@ -248,21 +263,30 @@ end
 		commandArray[#commandArray +1]={['SetSetPoint:755'] = sm }
 	end
 
-	--print('Consigne Bureau : ' .. otherdevices_svalues['Consigne Bureau'] )
-	--print('SetPoint Bureau : ' .. otherdevices_svalues['BT Bureau - Heat'] )
-	--print('Consigne Chambre Parent : ' .. otherdevices_svalues['Consigne Chambre Parents'] )
-	--print('SetPoint Chambre Parent : ' .. otherdevices_svalues['BT Chambre Parent - Heat'] )
-	--print('Consigne Salon : ' .. otherdevices_svalues['Consigne Salon'] )
-	--print('SetPoint Salon : ' .. otherdevices_svalues['BT Salon - Heat'] )
-	--print('Consigne Salle à Manger : ' .. otherdevices_svalues['Consigne Salle à Manger'] )
-	--print('SetPoint Salle à Manger 1 : ' .. otherdevices_svalues['BT SM1 - Heat'] )
-	--print('SetPoint Salle à Manger 2 : ' .. otherdevices_svalues['BT SM2 - Heat'] )
-	--print('Consigne Entrée : ' .. otherdevices_svalues['Consigne Entrée'] )
-	--print('SetPoint Entrée : ' .. otherdevices_svalues['BT Entrée - Heat'] )
-	--print('Consigne Cuisine : ' .. otherdevices_svalues['Consigne Cusine'] )
-	--print('SetPoint Cuisine : ' .. otherdevices_svalues['BT Cuisine - Heat'] )
-	--print('Consigne Salle de Bain : ' .. otherdevices_svalues['Consigne Salle de Bains'] )
-	--print('SetPoint Salle de Bain : ' .. otherdevices_svalues['BT Salle de bain - Heat'] )
+	print('Consigne Bureau : ' .. otherdevices_svalues['Consigne Bureau'] )
+	print('SetPoint Bureau : ' .. otherdevices_svalues['BT Bureau - Heat'] )
+
+	print('Consigne Chambre Nicolas : ' .. otherdevices_svalues['Consigne Chambre Nicolas'] )
+	print('SetPoint Chambre Nicolas : ' .. otherdevices_svalues['BT Nico Setpoint'] )
+
+	print('Consigne Chambre Parent : ' .. otherdevices_svalues['Consigne Chambre Parents'] )
+	print('SetPoint Chambre Parent : ' .. otherdevices_svalues['BT Chambre Parent - Heat'] )
+
+	print('Consigne Salon : ' .. otherdevices_svalues['Consigne Salon'] )
+	print('SetPoint Salon : ' .. otherdevices_svalues['BT Salon - Heat'] )
+
+	print('Consigne Salle à Manger : ' .. otherdevices_svalues['Consigne Salle à Manger'] )
+	print('SetPoint Salle à Manger 1 : ' .. otherdevices_svalues['BT SM1 - Heat'] )
+	print('SetPoint Salle à Manger 2 : ' .. otherdevices_svalues['BT SM2 - Heat'] )
+
+	print('Consigne Entrée : ' .. otherdevices_svalues['Consigne Entrée'] )
+	print('SetPoint Entrée : ' .. otherdevices_svalues['BT Entrée - Heat'] )
+
+	print('Consigne Cuisine : ' .. otherdevices_svalues['Consigne Cusine'] )
+	print('SetPoint Cuisine : ' .. otherdevices_svalues['BT Cuisine - Heat'] )
+
+	print('Consigne Salle de Bain : ' .. otherdevices_svalues['Consigne Salle de Bains'] )
+	print('SetPoint Salle de Bain : ' .. otherdevices_svalues['BT Salle de bain - Heat'] )
 	--
 
 --	print('### ++++++> Device Changes in commandArray: ' ..#commandArray )

@@ -46,7 +46,7 @@ commandArray = {}
 	if ( DEBUG == 1 ) then print('Past presence was      - ' .. prevPresence ) end
 
 	PresencePipiche = otherdevices['Patrick iPHONEXS'] 
-	PresencePatrick = otherdevices['Patrick iPHONE5S'] 
+	PresencePatrick = otherdevices['Patrick iPhone HPE'] 
 	PresenceAnnieClaude = otherdevices['Annie-Claude iPHONE6S']
 	PresenceNicolas = otherdevices['Nicolas iPhone6S']
 
@@ -72,6 +72,8 @@ commandArray = {}
 	if (uservariables["PresenceAtHome"] ~= newPresence) then 
 		print('Presence update from ' .. prevPresence  .. ' to ' .. newPresence )
 		commandArray['Variable:PresenceAtHome'] = tostring(newPresence)   
+		-- Update Bodys @ Home
+        	commandArray['UpdateDevice']= 900 .. '|0|' .. tostring( newPresence )
 	end
 
 return commandArray
