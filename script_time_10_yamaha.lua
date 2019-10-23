@@ -20,10 +20,6 @@ end
 commandArray = {}
 
 	if ( DEBUG == 2 ) then print ('Starting script_time_Yamaha.lua ') end
-	if (uservariables['PresenceAtHome'] == nil) then print("Error : Did you create the Uservariable PresenceAtHome ?") end
-
-	-- Previous presence
-	Presence = uservariables['PresenceAtHome'] 
 
         -- get current time
         timenow = os.date("*t")
@@ -31,43 +27,33 @@ commandArray = {}
         minutes = timenow.min
         hoursnow = timenow.hour
 
+	if otherdevices['Mode Auto Ampli/Music'] == 'Off' then
+		return
+	end
 
-	if ( IsWeekend() == "True" and hoursnow == 9 and minutes == 0 and Presence > 0 ) then
-		if otherdevices['Anyone@Home'] == 'On' then
+	if ( IsWeekend() == "True" and hoursnow == 9 and minutes == 0 and otherdevices['Anyone@Home'] == 'On') then
+		-- switch on Music
+		commandArray['Yamaha - Main']='On'
+		commandArray['Yamaha - Volume Main']='Set Level 30'
+		print('Switch On Music because ' .. otherdevices['Anyone@Home'] )
+	end
+	if ( IsWeekend() == "False" ) then 
+		if ( hoursnow == 8 and minutes == 0 and otherdevices['Anyone@Home'] == 'On' )  then
 			-- switch on Music
 			commandArray['Yamaha - Main']='On'
 			commandArray['Yamaha - Volume Main']='Set Level 30'
-			print('Switch On Music')
+			print('Switch On Music because ' .. otherdevices['Anyone@Home'] )
 		end
-	end
-	if ( IsWeekend() == "False" ) then
-		if ( hoursnow == 8 and minutes == 0 and Presence > 0 ) then
-			if otherdevices['Anyone@Home'] == 'On' then
-				-- switch on Music
-				commandArray['Yamaha - Main']='On'
-				commandArray['Yamaha - Volume Main']='Set Level 30'
-				print('Switch On Music')
-			end
-		end
-		if ( hoursnow == 18 and minutes == 0 ) then
-			if otherdevices['Anyone@Home'] == 'On' then
+		if ( hoursnow == 18 and otherdevices['Anyone@Home'] == 'On' ) then
                         -- switch on Music
                         commandArray['Yamaha - Main']='On'
 			commandArray['Yamaha - Volume Main']='Set Level 30'
-                        print('Switch On Music')
-			end
+			print('Switch On Music because ' .. otherdevices['Anyone@Home'] )
                 end
 	end
-
 	if otherdevices['Anyone@Home'] == 'Off' then
 		commandArray['Yamaha - Main']='Off'
-                print('Switch Off Music')
+                print('Switch Off Music as Anyone@Home is ' .. otherdevices['Anyone@Home'])
 	end
-
-	if ( Presence == 0 and otherdevices['Yamaha - Main'] ~= 'Off' ) then
-		-- switch Off Music
-		-- commandArray['Yamaha - Main']='Off'
-                print('Switch Off Music')
-        end
 
 return commandArray
